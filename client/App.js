@@ -16,14 +16,7 @@ class App extends Component {
 		this.state = {users: [], messages: [], text: '', name: ''};
 	}
 
-	componentDidMount() {
-		socket.on('message', message => this.messageReceive(message));
-		socket.on('update', ({users}) => this.chatUpdate(users));
-	}
-
-	render() {
-		return this.state.name !== '' ? this.renderLayout() : this.renderUserForm();
-	}
+	componentDidMount() {}
 
 	renderLayout() {
 		return (
@@ -76,6 +69,10 @@ class App extends Component {
 	handleUserSubmit(name) {
 		this.setState({name});
 		socket.emit('join', name);
+	}
+
+	render() {
+		return this.state.name !== '' ? this.renderLayout() : this.renderUserForm();
 	}
 };
 
