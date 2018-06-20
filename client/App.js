@@ -16,7 +16,10 @@ class App extends Component {
 		this.state = {users: [], messages: [], text: '', name: ''};
 	}
 
-	componentDidMount() {}
+	componentDidMount() {
+		socket.on('message', message => this.messageReceive(message));
+ 		socket.on('update', ({users}) => this.chatUpdate(users));
+	}
 
 	renderLayout() {
 		return (
@@ -69,6 +72,11 @@ class App extends Component {
 	handleUserSubmit(name) {
 		this.setState({name});
 		socket.emit('join', name);
+	}
+	
+	componentWillUnmount() {
+		socket.off('message', message => this.messageReceive(message));
+ 		socket.off('update', ({users}) => this.chatUpdate(users));
 	}
 
 	render() {
